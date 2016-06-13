@@ -1,0 +1,18 @@
+<h2>Show context</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @context.name %>
+  </li>
+
+  <li>
+    <strong>Parent:</strong>
+    <%= @context.parent_id %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: context_path(@conn, :edit, @context) %>
+<%= link "Back", to: context_path(@conn, :index) %>

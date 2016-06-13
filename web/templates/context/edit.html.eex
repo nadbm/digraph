@@ -1,0 +1,6 @@
+<h2>Edit context</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: context_path(@conn, :update, @context) %>
+
+<%= link "Back", to: context_path(@conn, :index) %>

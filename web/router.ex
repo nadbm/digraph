@@ -17,10 +17,7 @@ defmodule Digraffe.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-  end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", Digraffe do
-  #   pipe_through :api
-  # end
+    resources "/contexts", ContextController
+  end
 end
