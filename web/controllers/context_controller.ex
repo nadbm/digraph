@@ -15,8 +15,9 @@ defmodule Digraffe.ContextController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"context" => context_params}) do
-    changeset = Context.changeset(%Context{}, context_params)
+  def create(conn, %{"context" => params}) do
+    params = params |> Context.params_for_create()
+    changeset = Context.changeset(%Context{}, params)
 
     case Repo.insert(changeset) do
       {:ok, _context} ->
@@ -39,9 +40,9 @@ defmodule Digraffe.ContextController do
     render(conn, "edit.html", context: context, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "context" => context_params}) do
+  def update(conn, %{"id" => id, "context" => params}) do
     context = Repo.get!(Context, id)
-    changeset = Context.changeset(context, context_params)
+    changeset = Context.changeset(context, params)
 
     case Repo.update(changeset) do
       {:ok, context} ->

@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Parent</th>
+      <th>Id</th>
 
       <th></th>
     </tr>
@@ -13,7 +13,7 @@
 <%= for context <- @contexts do %>
     <tr>
       <td><%= context.name %></td>
-      <td><%= context.parent_id %></td>
+      <td><%= context.external_id %></td>
 
       <td class="text-right">
         <%= link "Show", to: context_path(@conn, :show, context), class: "btn btn-default btn-xs" %>

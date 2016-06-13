@@ -2,7 +2,7 @@ defmodule Digraffe.ContextControllerTest do
   use Digraffe.ConnCase
 
   alias Digraffe.Context
-  @valid_attrs %{name: "some content"}
+  @valid_attrs %{name: "Home", external_id: "1234"}
   @invalid_attrs %{}
 
   test "lists all entries on index", %{conn: conn} do

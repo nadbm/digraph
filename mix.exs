@@ -18,8 +18,15 @@ defmodule Digraffe.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Digraffe, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex]]
+     applications: [
+      :ex_machina,
+      :phoenix,
+      :phoenix_html,
+      :cowboy,
+      :logger,
+      :gettext,
+      :phoenix_ecto,
+      :postgrex]]
   end
 
   # Specifies which paths to compile per environment.
@@ -30,7 +37,8 @@ defmodule Digraffe.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.1.4"},
+    [{:ex_machina, "~> 0.6.1"},
+     {:phoenix, "~> 1.1.4"},
      {:postgrex, ">= 0.0.0"},
      {:phoenix_ecto, "~> 2.0"},
      {:phoenix_html, "~> 2.4"},
