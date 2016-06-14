@@ -1,0 +1,18 @@
+<h2>Show topic</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @topic.name %>
+  </li>
+
+  <li>
+    <strong>External:</strong>
+    <%= @topic.external_id %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: topic_path(@conn, :edit, @topic) %>
+<%= link "Back", to: topic_path(@conn, :index) %>

@@ -19,5 +19,6 @@ defmodule Digraffe.Router do
     get "/", PageController, :index
 
     resources "/contexts", ContextController
+    resources "/topics",   TopicController
   end
 end

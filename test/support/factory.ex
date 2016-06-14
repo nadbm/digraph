@@ -6,4 +6,10 @@ defmodule Digraffe.Factory do
       name: "Home"
     }
   end
+
+  def factory(:topic) do
+    %Digraffe.Context{
+      name: "Physics"
+    }
+  end
 end

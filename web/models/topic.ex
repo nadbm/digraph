@@ -1,7 +1,7 @@
-defmodule Digraffe.Context do
+defmodule Digraffe.Topic do
   use Digraffe.Web, :model
 
-  schema "contexts" do
+  schema "topics" do
     field :name, :string
     field :external_id, :string
     timestamps
