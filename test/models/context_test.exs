@@ -1,16 +1,15 @@
 defmodule Digraffe.ContextTest do
   use Digraffe.ModelCase
   import Digraffe.Factory
-  alias Digraffe.Context
+  alias Digraffe.{Context, Util}
 
-  @valid_attrs %{name: "Home", external_id: "value"}
+  @valid_attrs %{name: "Home"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
     context = create(:context)
-    params = Context.params_for_create(@valid_attrs)
+    params = Util.params_for_create(@valid_attrs)
     changeset = Context.changeset(context, params)
-    # assert 12 == changeset.params.external_id |> String.length()
     assert changeset.valid?
   end
 

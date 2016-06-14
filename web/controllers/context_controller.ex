@@ -2,6 +2,7 @@ defmodule Digraffe.ContextController do
   use Digraffe.Web, :controller
 
   alias Digraffe.Context
+  alias Digraffe.Util
 
   plug :scrub_params, "context" when action in [:create, :update]
 
@@ -16,7 +17,7 @@ defmodule Digraffe.ContextController do
   end
 
   def create(conn, %{"context" => params}) do
-    params = params |> Context.params_for_create()
+    params = params |> Util.params_for_create()
     changeset = Context.changeset(%Context{}, params)
 
     case Repo.insert(changeset) do
