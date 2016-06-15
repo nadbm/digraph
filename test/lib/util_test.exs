@@ -17,4 +17,22 @@ defmodule Digraffe.UtilTest do
     assert Map.has_key?(params, "external_id")
     assert 12 == String.length(params["external_id"])
   end
+
+  test "#normalize_url provides a canonical version of a url" do
+    assert {:ok, "https://rezrov.org/"} == Util.normalize_url("https://rezrov.org")
+  end
+
+  test "#normalize_url fills in the schema" do
+    assert {:ok, "http://rezrov.org/"} == Util.normalize_url("//rezrov.org")
+  end
+
+  test "#normalize_url lowercases the string" do
+    assert {:ok, "http://rezrov.org/"} == Util.normalize_url("Http://Rezrov.Org")
+  end
+
+  @tag wip: true
+  test "#normalize_url deals with bad input" do
+    assert {:error, "http//rezrov.org"} == Util.normalize_url("http//rezrov.org")
+    assert {:error, "http://rezrovorg"} == Util.normalize_url("http://rezrovorg")
+  end
 end

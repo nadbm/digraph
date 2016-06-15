@@ -20,5 +20,6 @@ defmodule Digraffe.Router do
 
     resources "/contexts", ContextController
     resources "/topics",   TopicController
+    resources "/links",    LinkController
   end
 end
