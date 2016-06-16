@@ -8,7 +8,7 @@
   </li>
 
   <li>
-    <strong>External:</strong>
+    <strong>External id:</strong>
     <%= @link.external_id %>
   </li>
 

@@ -27,7 +27,7 @@ defmodule Digraffe.LinkController do
 
       {:error, changeset} ->
         case changeset do
-          %Ecto.Changeset{errors: [external_id: "has already been taken"]} ->
+          %{errors: [external_id: "has already been taken"]} ->
             conn
             |> put_flash(:info, "Link found.")
             |> redirect(to: link_path(conn, :index))
