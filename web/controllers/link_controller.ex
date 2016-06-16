@@ -19,12 +19,21 @@ defmodule Digraffe.LinkController do
     params = Link.params_for_create(params)
     changeset = Link.changeset(%Link{}, params)
     case Repo.insert(changeset) do
+
       {:ok, _link} ->
         conn
         |> put_flash(:info, "Link created successfully.")
         |> redirect(to: link_path(conn, :index))
+
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        case changeset do
+          %Ecto.Changeset{errors: [external_id: "has already been taken"]} ->
+            conn
+            |> put_flash(:info, "Link found.")
+            |> redirect(to: link_path(conn, :index))
+          _ ->
+            render(conn, "new.html", changeset: changeset)
+        end
     end
   end
 
