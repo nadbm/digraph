@@ -40,3 +40,6 @@ config :digraffe, Digraffe.Repo,
   database: "digraffe_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :digraffe,
+  http_client: HTTPoison

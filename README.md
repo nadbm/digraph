@@ -13,3 +13,9 @@ A simple app being used to learn about Elixir, Phoenix and Ecto.
 % mix phoenix.server
 % open http://localhost:4000/contexts  # in another terminal
 ```
+
+## Running the tests
+
+```
+% mix test
+```

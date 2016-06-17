@@ -3,6 +3,8 @@ defmodule Digraffe.Link do
 
   alias Digraffe.{Util, Http}
 
+  @http_client Application.get_env(:digraffe, :http_client)
+
   schema "links" do
     field :title,       :string
     field :url,         :string
@@ -26,7 +28,7 @@ defmodule Digraffe.Link do
   end
 
   def params_for_create(%{"url" => url} = params) do
-    case HTTPoison.get(url) do
+    case @http_client.get(url) do
       {status, response} ->
         unless title = Http.Response.title(response) do
           title = url

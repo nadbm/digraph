@@ -17,3 +17,6 @@ config :digraffe, Digraffe.Repo,
   database: "digraffe_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :digraffe,
+  http_client: Digraffe.Httpoison.Fake
