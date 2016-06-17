@@ -42,7 +42,7 @@ defmodule Digraffe.Mixfile do
      {:ex_machina, "~> 0.6.1"},
      {:floki, "~> 0.8.1"},
      {:gettext, "~> 0.9"},
-     {:httpoison, "~> 0.8.0"},
+     {:httpoison, github: "edgurgel/httpoison"},
      {:phoenix, "~> 1.1.4"},
      {:postgrex, ">= 0.0.0"},
      {:phoenix_ecto, "~> 2.0"},
