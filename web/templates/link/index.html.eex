@@ -15,7 +15,7 @@
     <tr>
       <td><%= link.title %></td>
       <td><%= link.external_id %></td>
-      <td><%= link.url %></td>
+      <td><code><%= link.url %></code></td>
 
       <td class="text-right">
         <%= link "Show", to: link_path(@conn, :show, link), class: "btn btn-default btn-xs" %>

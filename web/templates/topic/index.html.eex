@@ -13,7 +13,7 @@
 <%= for topic <- @topics do %>
     <tr>
       <td><%= topic.name %></td>
-      <td><%= topic.external_id %></td>
+      <td><code><%= topic.external_id %></code></td>
 
       <td class="text-right">
         <%= link "Show", to: topic_path(@conn, :show, topic), class: "btn btn-default btn-xs" %>

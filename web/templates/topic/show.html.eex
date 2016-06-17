@@ -8,8 +8,8 @@
   </li>
 
   <li>
-    <strong>External:</strong>
-    <%= @topic.external_id %>
+    <strong>External id:</strong>
+    <code><%= @topic.external_id %></code>
   </li>
 
 </ul>

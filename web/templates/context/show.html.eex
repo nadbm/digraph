@@ -8,8 +8,8 @@
   </li>
 
   <li>
-    <strong>Id:</strong>
-    <%= @context.external_id %>
+    <strong>External id:</strong>
+    <code><%= @context.external_id %></code>
   </li>
 
 </ul>
