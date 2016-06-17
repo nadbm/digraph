@@ -9,6 +9,11 @@ defmodule Digraffe.Util do
     |> ensure_external_id(string_id)
   end
 
+  def random_id() do
+    random_string()
+    |> id_string()
+  end
+
   def id_string(binary) do
     binary
     |> Base.url_encode64()

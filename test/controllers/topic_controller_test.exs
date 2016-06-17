@@ -1,7 +1,8 @@
 defmodule Digraffe.TopicControllerTest do
   use Digraffe.ConnCase
-
+  import Digraffe.Factory
   alias Digraffe.Topic
+
   @valid_attrs %{external_id: "some content", name: "some content"}
   @invalid_attrs %{}
 
@@ -27,7 +28,7 @@ defmodule Digraffe.TopicControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    topic = Repo.insert! %Topic{}
+    topic = create(:topic)
     conn = get conn, topic_path(conn, :show, topic)
     assert html_response(conn, 200) =~ "Show topic"
   end
@@ -39,26 +40,27 @@ defmodule Digraffe.TopicControllerTest do
   end
 
   test "renders form for editing chosen resource", %{conn: conn} do
-    topic = Repo.insert! %Topic{}
+    topic = create(:topic)
     conn = get conn, topic_path(conn, :edit, topic)
     assert html_response(conn, 200) =~ "Edit topic"
   end
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
-    topic = Repo.insert! %Topic{}
-    conn = put conn, topic_path(conn, :update, topic), topic: @valid_attrs
+    topic = create(:topic)
+    attrs = %{name: "Gnusto", external_id: topic.external_id}
+    conn = put conn, topic_path(conn, :update, topic), topic: attrs
     assert redirected_to(conn) == topic_path(conn, :show, topic)
-    assert Repo.get_by(Topic, @valid_attrs)
+    assert Repo.get_by(Topic, attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    topic = Repo.insert! %Topic{}
-    conn = put conn, topic_path(conn, :update, topic), topic: @invalid_attrs
+    topic = create(:topic)
+    conn = put conn, topic_path(conn, :update, topic), topic: %{external_id: nil}
     assert html_response(conn, 200) =~ "Edit topic"
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    topic = Repo.insert! %Topic{}
+    topic = create(:topic)
     conn = delete conn, topic_path(conn, :delete, topic)
     assert redirected_to(conn) == topic_path(conn, :index)
     refute Repo.get(Topic, topic.id)

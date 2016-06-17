@@ -28,19 +28,19 @@ defmodule Digraffe.ContextController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    context = Repo.get!(Context, id)
+  def show(conn, %{"external_id" => id}) do
+    context = Repo.get_by!(Context, external_id: id)
     render(conn, "show.html", context: context)
   end
 
-  def edit(conn, %{"id" => id}) do
-    context = Repo.get!(Context, id)
+  def edit(conn, %{"external_id" => id}) do
+    context = Repo.get_by!(Context, external_id: id)
     changeset = Context.changeset(context)
     render(conn, "edit.html", context: context, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "context" => params}) do
-    context = Repo.get!(Context, id)
+  def update(conn, %{"external_id" => id, "context" => params}) do
+    context = Repo.get_by!(Context, external_id: id)
     changeset = Context.changeset(context, params)
 
     case Repo.update(changeset) do
@@ -53,8 +53,8 @@ defmodule Digraffe.ContextController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    context = Repo.get!(Context, id)
+  def delete(conn, %{"external_id" => id}) do
+    context = Repo.get_by!(Context, external_id: id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).

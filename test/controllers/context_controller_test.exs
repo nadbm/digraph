@@ -1,7 +1,8 @@
 defmodule Digraffe.ContextControllerTest do
   use Digraffe.ConnCase
-
+  import Digraffe.Factory
   alias Digraffe.Context
+
   @valid_attrs %{name: "Home", external_id: "1234"}
   @invalid_attrs %{}
 
@@ -27,7 +28,7 @@ defmodule Digraffe.ContextControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    context = Repo.insert! %Context{}
+    context = create(:context)
     conn = get conn, context_path(conn, :show, context)
     assert html_response(conn, 200) =~ "Show context"
   end
@@ -39,26 +40,27 @@ defmodule Digraffe.ContextControllerTest do
   end
 
   test "renders form for editing chosen resource", %{conn: conn} do
-    context = Repo.insert! %Context{}
+    context = create(:context)
     conn = get conn, context_path(conn, :edit, context)
     assert html_response(conn, 200) =~ "Edit context"
   end
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
-    context = Repo.insert! %Context{}
-    conn = put conn, context_path(conn, :update, context), context: @valid_attrs
+    context = create(:context)
+    attrs = %{external_id: context.external_id, name: "another"}
+    conn = put conn, context_path(conn, :update, context), context: attrs
     assert redirected_to(conn) == context_path(conn, :show, context)
-    assert Repo.get_by(Context, @valid_attrs)
+    assert Repo.get_by(Context, attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    context = Repo.insert! %Context{}
-    conn = put conn, context_path(conn, :update, context), context: @invalid_attrs
+    context = create(:context)
+    conn = put conn, context_path(conn, :update, context), context: %{external_id: nil}
     assert html_response(conn, 200) =~ "Edit context"
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    context = Repo.insert! %Context{}
+    context = create(:context)
     conn = delete conn, context_path(conn, :delete, context)
     assert redirected_to(conn) == context_path(conn, :index)
     refute Repo.get(Context, context.id)

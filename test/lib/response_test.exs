@@ -32,4 +32,12 @@ defmodule Digraffe.ResponseTest do
     }
     assert nil == Response.title(response)
   end
+
+  test "#title handles a more complex content type" do
+    response = %HTTPoison.Response{
+      headers: [{"Content-Type", "text/html; charset=utf-8"}],
+      body: "<html><title>Rezrov</title></html>",
+    }
+    assert "Rezrov" == Response.title(response)
+  end
 end

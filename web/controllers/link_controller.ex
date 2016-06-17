@@ -37,21 +37,20 @@ defmodule Digraffe.LinkController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    link = Repo.get!(Link, id)
+  def show(conn, %{"external_id" => id}) do
+    link = Repo.get_by!(Link, external_id: id)
     render(conn, "show.html", link: link)
   end
 
-  def edit(conn, %{"id" => id}) do
-    link = Repo.get!(Link, id)
+  def edit(conn, %{"external_id" => id}) do
+    link = Repo.get_by!(Link, external_id: id)
     changeset = Link.changeset(link)
     render(conn, "edit.html", link: link, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "link" => link_params}) do
-    link = Repo.get!(Link, id)
-    changeset = Link.changeset(link, link_params)
-
+  def update(conn, %{"external_id" => id, "link" => params}) do
+    link = Repo.get_by!(Link, external_id: id)
+    changeset = Link.changeset(link, params)
     case Repo.update(changeset) do
       {:ok, link} ->
         conn
@@ -62,13 +61,11 @@ defmodule Digraffe.LinkController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    link = Repo.get!(Link, id)
-
+  def delete(conn, %{"external_id" => id}) do
+    link = Repo.get_by!(Link, external_id: id)
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
     Repo.delete!(link)
-
     conn
     |> put_flash(:info, "Link deleted successfully.")
     |> redirect(to: link_path(conn, :index))

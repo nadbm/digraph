@@ -1,7 +1,8 @@
 defmodule Digraffe.LinkControllerTest do
   use Digraffe.ConnCase
-
+  import Digraffe.Factory
   alias Digraffe.Link
+
   @valid_attrs %{
     external_id: "some content",
     title: "some content",
@@ -31,7 +32,7 @@ defmodule Digraffe.LinkControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    link = Repo.insert! %Link{}
+    link = create(:link)
     conn = get conn, link_path(conn, :show, link)
     assert html_response(conn, 200) =~ "Show link"
   end
@@ -43,28 +44,30 @@ defmodule Digraffe.LinkControllerTest do
   end
 
   test "renders form for editing chosen resource", %{conn: conn} do
-    link = Repo.insert! %Link{}
+    link = create(:link)
     conn = get conn, link_path(conn, :edit, link)
     assert html_response(conn, 200) =~ "Edit link"
   end
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
-    link = Repo.insert! %Link{}
-    conn = put conn, link_path(conn, :update, link), link: @valid_attrs
+    link = create(:link)
+    attrs = %{external_id: link.external_id}
+    conn = put conn, link_path(conn, :update, link), link: attrs
     assert redirected_to(conn) == link_path(conn, :show, link)
-    assert Repo.get_by(Link, @valid_attrs)
+    assert Repo.get_by(Link, attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    link = Repo.insert! %Link{}
-    conn = put conn, link_path(conn, :update, link), link: @invalid_attrs
+    link = create(:link)
+    conn = put conn, link_path(conn, :update, link), link: %{external_id: nil}
     assert html_response(conn, 200) =~ "Edit link"
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    link = Repo.insert! %Link{}
+    link = create(:link)
+    attrs = %{external_id: link.external_id}
     conn = delete conn, link_path(conn, :delete, link)
     assert redirected_to(conn) == link_path(conn, :index)
-    refute Repo.get(Link, link.id)
+    refute Repo.get_by(Link, attrs)
   end
 end

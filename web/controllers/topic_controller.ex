@@ -28,21 +28,20 @@ defmodule Digraffe.TopicController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    topic = Repo.get!(Topic, id)
+  def show(conn, %{"external_id" => id}) do
+    topic = Repo.get_by!(Topic, external_id: id)
     render(conn, "show.html", topic: topic)
   end
 
-  def edit(conn, %{"id" => id}) do
-    topic = Repo.get!(Topic, id)
+  def edit(conn, %{"external_id" => id}) do
+    topic = Repo.get_by!(Topic, external_id: id)
     changeset = Topic.changeset(topic)
     render(conn, "edit.html", topic: topic, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "topic" => params}) do
-    topic = Repo.get!(Topic, id)
+  def update(conn, %{"external_id" => id, "topic" => params}) do
+    topic = Repo.get_by!(Topic, external_id: id)
     changeset = Topic.changeset(topic, params)
-
     case Repo.update(changeset) do
       {:ok, topic} ->
         conn
@@ -53,13 +52,11 @@ defmodule Digraffe.TopicController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    topic = Repo.get!(Topic, id)
-
+  def delete(conn, %{"external_id" => id}) do
+    topic = Repo.get_by!(Topic, external_id: id)
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
     Repo.delete!(topic)
-
     conn
     |> put_flash(:info, "Topic deleted successfully.")
     |> redirect(to: topic_path(conn, :index))

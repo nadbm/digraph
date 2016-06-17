@@ -30,7 +30,6 @@ defmodule Digraffe.UtilTest do
     assert {:ok, "http://rezrov.org/"} == Util.normalize_url("Http://Rezrov.Org")
   end
 
-  @tag wip: true
   test "#normalize_url deals with bad input" do
     assert {:error, "http//rezrov.org"} == Util.normalize_url("http//rezrov.org")
     assert {:error, "http://rezrovorg"} == Util.normalize_url("http://rezrovorg")
