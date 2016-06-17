@@ -14,8 +14,8 @@
 <%= for link <- @links do %>
     <tr>
       <td><%= link.title %></td>
-      <td><%= link.external_id %></td>
-      <td><code><%= link.url %></code></td>
+      <td><code><%= link.external_id %></code></td>
+      <td><%= link.url %></td>
 
       <td class="text-right">
         <%= link "Show", to: link_path(@conn, :show, link), class: "btn btn-default btn-xs" %>
