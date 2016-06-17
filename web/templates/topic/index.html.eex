@@ -1,19 +1,16 @@
-<h2>Listing topics</h2>
+<h2>Topics</h2>
 
 <table class="table">
   <thead>
     <tr>
       <th>Name</th>
-      <th>External id</th>
-
       <th></th>
     </tr>
   </thead>
   <tbody>
-<%= for topic <- @topics do %>
+  <%= for topic <- @topics do %>
     <tr>
       <td><%= topic.name %></td>
-      <td><code><%= topic.external_id %></code></td>
 
       <td class="text-right">
         <%= link "Show", to: topic_path(@conn, :show, topic), class: "btn btn-default btn-xs" %>
@@ -21,7 +18,7 @@
         <%= link "Delete", to: topic_path(@conn, :delete, topic), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>
     </tr>
-<% end %>
+  <% end %>
   </tbody>
 </table>
 

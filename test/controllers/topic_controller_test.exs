@@ -8,7 +8,7 @@ defmodule Digraffe.TopicControllerTest do
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, topic_path(conn, :index)
-    assert html_response(conn, 200) =~ "Listing topics"
+    assert html_response(conn, 200) =~ "Topics"
   end
 
   test "renders form for new resources", %{conn: conn} do

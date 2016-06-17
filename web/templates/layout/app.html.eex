@@ -8,6 +8,7 @@
     <meta name="author" content="">
 
     <title>Digraffe</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/bootstrap.orig.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
@@ -16,10 +17,12 @@
       <header class="header">
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
+            <li><%= link "Links",    to: "/links"    %></li>
+            <li><%= link "Topics",   to: "/topics"   %></li>
+            <li><%= link "Contexts", to: "/contexts" %></li>
           </ul>
         </nav>
-        <span class="logo"></span>
+        <span class="logo">Digraffe</span>
       </header>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

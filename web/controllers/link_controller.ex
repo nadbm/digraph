@@ -6,8 +6,10 @@ defmodule Digraffe.LinkController do
   plug :scrub_params, "link" when action in [:create, :update]
 
   def index(conn, _params) do
-    links = Repo.all(Link)
-    render(conn, "index.html", links: links)
+    render(conn, "index.html",
+      links:     Repo.all(Link),
+      changeset: Link.changeset(%Link{})
+    )
   end
 
   def new(conn, _params) do
@@ -22,7 +24,7 @@ defmodule Digraffe.LinkController do
 
       {:ok, _link} ->
         conn
-        |> put_flash(:info, "Link created successfully.")
+        |> put_flash(:info, "Link added.")
         |> redirect(to: link_path(conn, :index))
 
       {:error, changeset} ->

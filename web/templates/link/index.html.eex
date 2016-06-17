@@ -1,21 +1,21 @@
 <h2>Links</h2>
 
+<%= render "form.html", changeset: @changeset,
+                        action: link_path(@conn, :create) %>
+
 <table class="table">
   <thead>
     <tr>
       <th>Title</th>
-      <th>External id</th>
       <th>Url</th>
-
       <th></th>
     </tr>
   </thead>
   <tbody>
-<%= for link <- @links do %>
+    <%= for link <- @links do %>
     <tr>
       <td><%= link.title %></td>
-      <td><code><%= link.external_id %></code></td>
-      <td><%= link.url %></td>
+      <td><a href="<%= link.url %>"><%= link.url %></a></td>
 
       <td class="text-right">
         <%= link "Show",   to: link_path(@conn, :show, link), class: "btn btn-default btn-xs" %>
@@ -23,8 +23,6 @@
         <%= link "Delete", to: link_path(@conn, :delete, link), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>
     </tr>
-<% end %>
+    <% end %>
   </tbody>
 </table>
-
-<%= link "New link", to: link_path(@conn, :new) %>
