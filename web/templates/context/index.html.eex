@@ -13,7 +13,7 @@
       <td><%= context.name %></td>
 
       <td class="text-right">
-        <%= link "Show", to: context_path(@conn, :show, context), class: "btn btn-default btn-xs" %>
+        <%= link "View", to: context_path(@conn, :show, context), class: "btn btn-default btn-xs" %>
         <%= link "Edit", to: context_path(@conn, :edit, context), class: "btn btn-default btn-xs" %>
         <%= link "Delete", to: context_path(@conn, :delete, context), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>
