@@ -12,12 +12,12 @@ defmodule Digraffe.LinkControllerTest do
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, link_path(conn, :index)
-    assert html_response(conn, 200) =~ "Listing links"
+    assert html_response(conn, 200) =~ "Links"
   end
 
   test "renders form for new resources", %{conn: conn} do
     conn = get conn, link_path(conn, :new)
-    assert html_response(conn, 200) =~ "New link"
+    assert html_response(conn, 200) =~ "Submit link"
   end
 
   test "creates resource and redirects when data is valid", %{conn: conn} do
@@ -28,7 +28,7 @@ defmodule Digraffe.LinkControllerTest do
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
     conn = post conn, link_path(conn, :create), link: @invalid_attrs
-    assert html_response(conn, 200) =~ "New link"
+    assert html_response(conn, 200) =~ "Submit link"
   end
 
   test "shows chosen resource", %{conn: conn} do

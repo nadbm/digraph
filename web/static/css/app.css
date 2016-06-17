@@ -41,7 +41,7 @@ form.link, form.button {
 /* Customize container */
 @media (min-width: 768px) {
   .container {
-    max-width: 730px;
+    max-width: 900px;
   }
 }
 .container-narrow > hr {
@@ -57,6 +57,10 @@ form.link, form.button {
 /* Supporting marketing content */
 .marketing {
   margin: 35px 0;
+}
+
+.text-right {
+  width: 155px;
 }
 
 /* Responsive: Portrait tablets and up */
