@@ -1,23 +1,8 @@
-<h2>Show link</h2>
+<h2><%= @link.title %></h2>
+<a href="<%= @link.url %>"><%= @link.url %></a>
 
-<ul>
-
-  <li>
-    <strong>Title:</strong>
-    <%= @link.title %>
-  </li>
-
-  <li>
-    <strong>External id:</strong>
-    <code><%= @link.external_id %></code>
-  </li>
-
-  <li>
-    <strong>Url:</strong>
-    <%= @link.url %>
-  </li>
-
-</ul>
-
-<%= link "Edit", to: link_path(@conn, :edit, @link) %>
-<%= link "Back", to: link_path(@conn, :index) %>
+<div class="text-right">
+  <%= link "Back", to: link_path(@conn, :index), class: "btn-xs" %>
+  <%= link "Edit", to: link_path(@conn, :edit, @link), class: "btn-xs" %>
+  <%= link "Delete", to: link_path(@conn, :delete, @link), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+</div>

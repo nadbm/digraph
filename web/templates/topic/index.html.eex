@@ -1,12 +1,6 @@
 <h2>Topics</h2>
 
 <table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th></th>
-    </tr>
-  </thead>
   <tbody>
   <%= for topic <- @topics do %>
     <tr>

@@ -1,6 +1,8 @@
 <h2>Submit link</h2>
 
-<%= render "form.html", changeset: @changeset,
-                        action: link_path(@conn, :create) %>
+<%= render "form.html",
+  changeset: @changeset,
+  action: link_path(@conn, :create),
+  button_text: "Add" %>
 
 <%= link "Back", to: link_path(@conn, :index) %>

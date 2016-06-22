@@ -34,7 +34,7 @@ defmodule Digraffe.LinkControllerTest do
   test "shows chosen resource", %{conn: conn} do
     link = create(:link)
     conn = get conn, link_path(conn, :show, link)
-    assert html_response(conn, 200) =~ "Show link"
+    assert html_response(conn, 200) =~ "Back"
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do

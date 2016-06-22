@@ -1,11 +1,16 @@
 body {
-  font-size:62.5%;
+  font-size: 62.5%;
 }
 
 /* Space out content a bit */
 body, form, ul, table {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.container table.table td {
+  border: 0;
+  padding-left: 0;
 }
 
 /* Phoenix flash messages */
@@ -54,10 +59,6 @@ form.link, form.button {
 /* Supporting marketing content */
 .marketing {
   margin: 35px 0;
-}
-
-.text-right {
-  width: 155px;
 }
 
 /* Responsive: Portrait tablets and up */

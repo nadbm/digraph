@@ -11,6 +11,6 @@
   </div>
 
   <div class="form-group">
-    <%= submit "+", class: "btn btn-primary" %>
+    <%= submit @button_text, class: "btn btn-primary" %>
   </div>
 <% end %>

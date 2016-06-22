@@ -1,26 +1,17 @@
 <h2>Links</h2>
 
-<%= render "form.html", changeset: @changeset,
-                        action: link_path(@conn, :create) %>
+<%= render "form.html",
+  changeset: @changeset,
+  action: link_path(@conn, :create),
+  button_text: "Add" %>
 
 <table class="table">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Url</th>
-      <th></th>
-    </tr>
-  </thead>
   <tbody>
     <%= for link <- @links do %>
     <tr>
-      <td><%= link.title %></td>
-      <td><a href="<%= link.url %>"><%= link.url %></a></td>
-
-      <td class="text-right">
-        <%= link "View",   to: link_path(@conn, :show, link), class: "btn btn-default btn-xs" %>
-        <%= link "Edit",   to: link_path(@conn, :edit, link), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: link_path(@conn, :delete, link), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      <td>
+        <div><%= link.title %>&nbsp;<%= link "view", to: link_path(@conn, :show, link) %></div>
+        <div><a href="<%= link.url %>"><%= link.url %></a></div>
       </td>
     </tr>
     <% end %>

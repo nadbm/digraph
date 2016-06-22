@@ -1,14 +1,8 @@
 <h2>Contexts</h2>
 
 <table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th></th>
-    </tr>
-  </thead>
   <tbody>
-<%= for context <- @contexts do %>
+    <%= for context <- @contexts do %>
     <tr>
       <td><%= context.name %></td>
 
@@ -18,7 +12,7 @@
         <%= link "Delete", to: context_path(@conn, :delete, context), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>
     </tr>
-<% end %>
+    <% end %>
   </tbody>
 </table>
 
