@@ -8,8 +8,7 @@ defmodule Digraffe.LinkController do
   def index(conn, _params) do
     render(conn, "index.html",
       links:     Repo.all(Link),
-      changeset: Link.changeset(%Link{})
-    )
+      changeset: Link.changeset(%Link{}))
   end
 
   def new(conn, _params) do
@@ -42,7 +41,9 @@ defmodule Digraffe.LinkController do
                 |> put_flash(:info, "Link found.")
                 |> redirect(to: link_path(conn, :index))
               _ ->
-                render(conn, "new.html", changeset: changeset)
+                render(conn, "index.html",
+                  changeset: changeset,
+                  links: Repo.all(Link))
             end
         end
     end
@@ -65,7 +66,7 @@ defmodule Digraffe.LinkController do
     case Repo.update(changeset) do
       {:ok, link} ->
         conn
-        |> put_flash(:info, "Link updated successfully.")
+        |> put_flash(:info, "Link updated.")
         |> redirect(to: link_path(conn, :show, link))
       {:error, changeset} ->
         render(conn, "edit.html", link: link, changeset: changeset)

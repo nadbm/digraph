@@ -28,14 +28,15 @@ defmodule Digraffe.Link do
   end
 
   def params_for_create(%{"url" => url} = params) do
-    case @http_client.get(url) do
+    params = case @http_client.get(url) do
       {:ok, response} ->
         unless title = Http.Response.title(response) do
           title = url
         end
-        params = Map.put(params, "title", title)
+        Map.put(params, "title", title)
       _ -> nil
     end
+    Util.params_for_create(params, fn -> url end)
   end
 
   def params_for_create(params) do

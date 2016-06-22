@@ -28,7 +28,7 @@ defmodule Digraffe.LinkControllerTest do
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
     conn = post conn, link_path(conn, :create), link: @invalid_attrs
-    assert html_response(conn, 200) =~ "Submit link"
+    assert html_response(conn, 200) =~ "Add"
   end
 
   test "shows chosen resource", %{conn: conn} do
