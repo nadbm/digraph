@@ -1,15 +1,14 @@
 defmodule Digraffe.TopicTest do
   use Digraffe.ModelCase
   import Digraffe.Factory
-  alias Digraffe.{Topic, Util}
+  alias Digraffe.Topic
 
-  @valid_attrs %{external_id: "some content", name: "some content"}
+  @valid_attrs %{name: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
     topic = create(:topic)
-    params = Util.params_for_create(@valid_attrs)
-    changeset = Topic.changeset(topic, params)
+    changeset = Topic.changeset(topic, @valid_attrs)
     assert changeset.valid?
   end
 

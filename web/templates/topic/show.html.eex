@@ -7,11 +7,6 @@
     <%= @topic.name %>
   </li>
 
-  <li>
-    <strong>External id:</strong>
-    <code><%= @topic.external_id %></code>
-  </li>
-
 </ul>
 
 <%= link "Edit", to: topic_path(@conn, :edit, @topic) %>

@@ -2,13 +2,6 @@ defmodule Digraffe.Util do
 
   @id_length 12
 
-  def params_for_create(params, seed \\ &random_string/0) do
-    string_id = id_string(seed.())
-    params
-    |> string_keys()
-    |> ensure_external_id(string_id)
-  end
-
   def random_id() do
     random_string()
     |> id_string()
@@ -84,13 +77,5 @@ defmodule Digraffe.Util do
 
   defp random_string() do
     :crypto.strong_rand_bytes(@id_length + 10)
-  end
-
-  defp ensure_external_id(params, external_id) do
-    if Map.has_key?(params, "external_id") do
-      params
-    else
-      Map.put(params, "external_id", external_id)
-    end
   end
 end

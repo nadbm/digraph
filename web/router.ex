@@ -18,8 +18,9 @@ defmodule Digraffe.Router do
 
     get "/", PageController, :index
 
-    resources "/contexts", ContextController, param: "external_id"
-    resources "/topics",   TopicController,   param: "external_id"
-    resources "/links",    LinkController,    param: "external_id"
+    resources "/contexts",    ContextController
+    resources "/topics",      TopicController
+    resources "/links",       LinkController
+    resources "/collections", CollectionController
   end
 end

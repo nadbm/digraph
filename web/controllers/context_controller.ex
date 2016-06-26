@@ -16,7 +16,6 @@ defmodule Digraffe.ContextController do
   end
 
   def create(conn, %{"context" => params}) do
-    params = Util.params_for_create(params)
     changeset = Context.changeset(%Context{}, params)
     case Repo.insert(changeset) do
       {:ok, _context} ->
@@ -28,21 +27,20 @@ defmodule Digraffe.ContextController do
     end
   end
 
-  def show(conn, %{"external_id" => id}) do
-    context = Repo.get_by!(Context, external_id: id)
+  def show(conn, %{"id" => id}) do
+    context = Repo.get!(Context, id)
     render(conn, "show.html", context: context)
   end
 
-  def edit(conn, %{"external_id" => id}) do
-    context = Repo.get_by!(Context, external_id: id)
+  def edit(conn, %{"id" => id}) do
+    context = Repo.get!(Context, id)
     changeset = Context.changeset(context)
     render(conn, "edit.html", context: context, changeset: changeset)
   end
 
-  def update(conn, %{"external_id" => id, "context" => params}) do
-    context = Repo.get_by!(Context, external_id: id)
+  def update(conn, %{"id" => id, "context" => params}) do
+    context = Repo.get!(Context, id)
     changeset = Context.changeset(context, params)
-
     case Repo.update(changeset) do
       {:ok, context} ->
         conn
@@ -53,13 +51,11 @@ defmodule Digraffe.ContextController do
     end
   end
 
-  def delete(conn, %{"external_id" => id}) do
-    context = Repo.get_by!(Context, external_id: id)
-
+  def delete(conn, %{"id" => id}) do
+    context = Repo.get!(Context, id)
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
     Repo.delete!(context)
-
     conn
     |> put_flash(:info, "Context deleted successfully.")
     |> redirect(to: context_path(conn, :index))

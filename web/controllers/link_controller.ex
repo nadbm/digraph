@@ -17,51 +17,34 @@ defmodule Digraffe.LinkController do
   end
 
   def create(conn, %{"link" => params}) do
-    params = Link.params_for_create(params)
-    case params do
+    changeset = Link.changeset(%Link{}, params)
+    case Repo.insert(changeset) do
 
-      nil ->
+      {:ok, _link} ->
         conn
-        |> put_flash(:info, "There was a problem.")
+        |> put_flash(:info, "Link added.")
         |> redirect(to: link_path(conn, :index))
 
-      _ ->
-        changeset = Link.changeset(%Link{}, params)
-        case Repo.insert(changeset) do
-
-          {:ok, _link} ->
-            conn
-            |> put_flash(:info, "Link added.")
-            |> redirect(to: link_path(conn, :index))
-
-          {:error, changeset} ->
-            case changeset do
-              %{errors: [external_id: "has already been taken"]} ->
-                conn
-                |> put_flash(:info, "Link found.")
-                |> redirect(to: link_path(conn, :index))
-              _ ->
-                render(conn, "index.html",
-                  changeset: changeset,
-                  links: Repo.all(Link))
-            end
-        end
+      {:error, changeset} ->
+        render(conn, "index.html",
+          changeset: changeset,
+          links: Repo.all(Link))
     end
   end
 
-  def show(conn, %{"external_id" => id}) do
-    link = Repo.get_by!(Link, external_id: id)
+  def show(conn, %{"id" => id}) do
+    link = Repo.get!(Link, id)
     render(conn, "show.html", link: link)
   end
 
-  def edit(conn, %{"external_id" => id}) do
-    link = Repo.get_by!(Link, external_id: id)
+  def edit(conn, %{"id" => id}) do
+    link = Repo.get!(Link, id)
     changeset = Link.changeset(link)
     render(conn, "edit.html", link: link, changeset: changeset)
   end
 
-  def update(conn, %{"external_id" => id, "link" => params}) do
-    link = Repo.get_by!(Link, external_id: id)
+  def update(conn, %{"id" => id, "link" => params}) do
+    link = Repo.get!(Link, id)
     changeset = Link.changeset(link, params)
     case Repo.update(changeset) do
       {:ok, link} ->
@@ -73,8 +56,8 @@ defmodule Digraffe.LinkController do
     end
   end
 
-  def delete(conn, %{"external_id" => id}) do
-    link = Repo.get_by!(Link, external_id: id)
+  def delete(conn, %{"id" => id}) do
+    link = Repo.get!(Link, id)
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
     Repo.delete!(link)

@@ -7,11 +7,6 @@
     <%= @context.name %>
   </li>
 
-  <li>
-    <strong>External id:</strong>
-    <code><%= @context.external_id %></code>
-  </li>
-
 </ul>
 
 <%= link "Edit", to: context_path(@conn, :edit, @context) %>

@@ -1,14 +1,14 @@
-defmodule Digraffe.Topic do
+defmodule Digraffe.Collection do
   use Digraffe.Web, :model
 
   @primary_key {:id, :binary_id, autogenerate: true}
 
-  schema "topics" do
-    field :name, :string
+  schema "collections" do
+    field :title, :string
     timestamps
   end
 
-  @required_fields ~w(name)
+  @required_fields ~w(title)
   @optional_fields ~w()
 
   def changeset(model, params \\ :empty) do

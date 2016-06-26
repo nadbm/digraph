@@ -12,12 +12,6 @@ defmodule Digraffe.UtilTest do
     assert %{"k1" => 1, "k2" => 2} == Util.string_keys(%{:k1 => 1, "k2" => 2})
   end
 
-  test "#params_for_create adds an external_id" do
-    params = Util.params_for_create(%{name: "Home"})
-    assert Map.has_key?(params, "external_id")
-    assert 12 == String.length(params["external_id"])
-  end
-
   test "#normalize_url provides a canonical version of a url" do
     assert {:ok, "https://rezrov.org/"} == Util.normalize_url("https://rezrov.org")
   end

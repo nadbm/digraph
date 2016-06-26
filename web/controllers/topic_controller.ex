@@ -16,7 +16,6 @@ defmodule Digraffe.TopicController do
   end
 
   def create(conn, %{"topic" => params}) do
-    params = Util.params_for_create(params)
     changeset = Topic.changeset(%Topic{}, params)
     case Repo.insert(changeset) do
       {:ok, _topic} ->
@@ -28,19 +27,19 @@ defmodule Digraffe.TopicController do
     end
   end
 
-  def show(conn, %{"external_id" => id}) do
-    topic = Repo.get_by!(Topic, external_id: id)
+  def show(conn, %{"id" => id}) do
+    topic = Repo.get!(Topic, id)
     render(conn, "show.html", topic: topic)
   end
 
-  def edit(conn, %{"external_id" => id}) do
-    topic = Repo.get_by!(Topic, external_id: id)
+  def edit(conn, %{"id" => id}) do
+    topic = Repo.get!(Topic, id)
     changeset = Topic.changeset(topic)
     render(conn, "edit.html", topic: topic, changeset: changeset)
   end
 
-  def update(conn, %{"external_id" => id, "topic" => params}) do
-    topic = Repo.get_by!(Topic, external_id: id)
+  def update(conn, %{"id" => id, "topic" => params}) do
+    topic = Repo.get!(Topic, id)
     changeset = Topic.changeset(topic, params)
     case Repo.update(changeset) do
       {:ok, topic} ->
@@ -52,8 +51,8 @@ defmodule Digraffe.TopicController do
     end
   end
 
-  def delete(conn, %{"external_id" => id}) do
-    topic = Repo.get_by!(Topic, external_id: id)
+  def delete(conn, %{"id" => id}) do
+    topic = Repo.get!(Topic, id)
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
     Repo.delete!(topic)

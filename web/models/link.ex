@@ -1,45 +1,39 @@
 defmodule Digraffe.Link do
   use Digraffe.Web, :model
 
-  alias Digraffe.{Util, Http}
+  alias Digraffe.Http
 
   @http_client Application.get_env(:digraffe, :http_client)
+  @primary_key {:id, :binary_id, autogenerate: true}
 
   schema "links" do
-    field :title,       :string
-    field :url,         :string
-    field :external_id, :string
+    field :title, :string
+    field :url,   :string
     timestamps
   end
 
-  @required_fields ~w(title external_id url)
+  @required_fields ~w(title url)
   @optional_fields ~w()
 
   def changeset(model, params \\ :empty) do
+    params = add_title(params)
     model
     |> cast(params, @required_fields, @optional_fields)
-    |> unique_constraint(:external_id)
   end
 
-  def params_for_create(%{url: _url} = params) do
-    params
-    |> Util.string_keys()
-    |> params_for_create()
-  end
-
-  def params_for_create(%{"url" => url} = params) do
-    params = case @http_client.get(url) do
+  defp add_title(%{"url" => url} = params) do
+    case @http_client.get(url) do
       {:ok, response} ->
         unless title = Http.Response.title(response) do
           title = url
         end
         Map.put(params, "title", title)
-      _ -> nil
+      _ ->
+        params
     end
-    Util.params_for_create(params, fn -> url end)
   end
 
-  def params_for_create(params) do
+  defp add_title(params) do
     params
   end
 end

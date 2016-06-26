@@ -3,8 +3,8 @@ defmodule Digraffe.ContextControllerTest do
   import Digraffe.Factory
   alias Digraffe.Context
 
-  @valid_attrs %{name: "Home", external_id: "1234"}
-  @invalid_attrs %{}
+  @valid_attrs %{name: "Home"}
+  @invalid_attrs %{name: -1}
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, context_path(conn, :index)
@@ -35,7 +35,7 @@ defmodule Digraffe.ContextControllerTest do
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
-      get conn, context_path(conn, :show, -1)
+      get conn, context_path(conn, :show, "960c8608-0c58-4dcd-a5f4-13eeb4900292")
     end
   end
 
@@ -47,15 +47,14 @@ defmodule Digraffe.ContextControllerTest do
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
     context = create(:context)
-    attrs = %{external_id: context.external_id, name: "another"}
-    conn = put conn, context_path(conn, :update, context), context: attrs
+    conn = put conn, context_path(conn, :update, context), context: @valid_attrs
     assert redirected_to(conn) == context_path(conn, :show, context)
-    assert Repo.get_by(Context, attrs)
+    assert Repo.get_by(Context, @valid_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
     context = create(:context)
-    conn = put conn, context_path(conn, :update, context), context: %{external_id: nil}
+    conn = put conn, context_path(conn, :update, context), context: @invalid_attrs
     assert html_response(conn, 200) =~ "Edit context"
   end
 
