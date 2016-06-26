@@ -1,7 +1,7 @@
 defmodule Digraffe.TopicController do
   use Digraffe.Web, :controller
 
-  alias Digraffe.{Topic, Util}
+  alias Digraffe.Topic
 
   plug :scrub_params, "topic" when action in [:create, :update]
 

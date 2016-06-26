@@ -43,3 +43,8 @@ config :digraffe, Digraffe.Repo,
 
 config :digraffe,
   http_client: HTTPoison
+
+config :oauth2, GitHub,
+  client_id: System.get_env("GITHUB_CLIENT_ID"),
+  client_secret: System.get_env("GITHUB_CLIENT_SECRET"),
+  redirect_uri: System.get_env("GITHUB_REDIRECT_URI")

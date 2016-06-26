@@ -8,6 +8,7 @@
     <meta name="author" content="">
 
     <title>Digraffe</title>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
@@ -16,9 +17,21 @@
       <header class="header">
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
-            <li><%= link "Links",    to: "/links"    %></li>
-            <li><%= link "Topics",   to: "/topics"   %></li>
-            <li><%= link "Contexts", to: "/contexts" %></li>
+            <li><%= link "Links",       to: "/links"    %></li>
+            <li><%= link "Topics",      to: "/topics"   %></li>
+            <li><%= link "Contexts",    to: "/contexts" %></li>
+            <li><%= link "Collections", to: "/collections" %></li>
+            <li>
+              <%= if @settings do %>
+                <img src="<%= @settings.small_avatar_url %>" class="img-circle"/>
+                <%= link "Logout", to: auth_path(@conn, :delete), method: :delete, class: "btn btn-danger" %>
+              <% else %>
+                <a class="btn btn-primary btn-lg" href="<%= auth_path @conn, :index, "github" %>">
+                  <i class="fa fa-github"></i>
+                  GitHub
+                </a>
+              <% end %>
+            </li>
           </ul>
         </nav>
         <span class="logo">Digraffe</span>

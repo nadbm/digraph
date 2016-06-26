@@ -1,7 +1,7 @@
 defmodule Digraffe.ContextController do
   use Digraffe.Web, :controller
 
-  alias Digraffe.{Context, Util}
+  alias Digraffe.Context
 
   plug :scrub_params, "context" when action in [:create, :update]
 
