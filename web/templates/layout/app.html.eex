@@ -30,7 +30,7 @@
                     <img src="<%= Digraffe.Settings.small_avatar_url @settings %>" class="img-circle avatar"/>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                    <li><%= link "Logout", to: auth_path(@conn, :delete), method: :delete %></li>
+                    <li><%= link "Sign out", to: auth_path(@conn, :delete), method: :delete %></li>
                   </ul>
                 </div>
               <% else %>
