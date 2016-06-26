@@ -39,6 +39,6 @@ defmodule Digraffe.Router do
   # `@current_account`.
   defp assign_settings(conn, _) do
     user = get_session(conn, :current_user)
-    assign conn, :settings, Settings.new(user)
+    assign conn, :settings, Settings.get_or_create(user)
   end
 end

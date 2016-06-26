@@ -5,7 +5,6 @@ defmodule Digraffe.AuthController do
   use Digraffe.Web, :controller
 
   alias Digraffe.Oauth2.{GitHub, Google, Facebook}
-  alias Digraffe.Settings
 
   @doc """
   This action is reached via `/auth/:provider` and redirects to the OAuth2 provider
@@ -60,22 +59,24 @@ defmodule Digraffe.AuthController do
 
   defp get_user!("github" = provider, token) do
     {:ok, %{body: user}} = OAuth2.AccessToken.get(token, "/user")
-    avatar_url = user["avatar_url"]
-    %Settings{name: user["name"],
-      avatar_url: avatar_url,
-      provider: provider}
+    %{name: user["name"],
+      avatar_url: user["avatar_url"],
+      provider: provider,
+      provider_id: user["url"]}
   end
 
   defp get_user!("google" = provider, token) do
     {:ok, %{body: user}} = OAuth2.AccessToken.get(token, "https://www.googleapis.com/plus/v1/people/me/openIdConnect")
-    %Settings{name: user["name"],
+    # Needs - provider_id
+    %{name: user["name"],
       avatar_url: user["picture"],
       provider: provider}
   end
 
   defp get_user!("facebook" = provider, token) do
     {:ok, %{body: user}} = OAuth2.AccessToken.get(token, "/me", fields: "id,name")
-    %Settings{name: user["name"],
+    # Needs - provider_id
+    %{name: user["name"],
       avatar_url: "https://graph.facebook.com/#{user["id"]}/picture",
       provider: provider}
   end
