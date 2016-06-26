@@ -15,21 +15,25 @@ defmodule Digraffe.CollectionController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"collection" => collection_params}) do
+  def create(conn, %{"collection" => collection_params, "settings" => settings}) do
+    collection_params = Map.put(collection_params, "owner_id", settings.id)
     changeset = Collection.changeset(%Collection{}, collection_params)
-
     case Repo.insert(changeset) do
       {:ok, _collection} ->
         conn
-        |> put_flash(:info, "Collection created successfully.")
+        |> put_flash(:info, "Collection created.")
         |> redirect(to: collection_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
 
+  def create(conn, %{"collection" => _params} = arguments) do
+    create conn, Map.put(arguments, "settings", conn.assigns.settings)
+  end
+
   def show(conn, %{"id" => id}) do
-    collection = Repo.get!(Collection, id)
+    collection = Repo.get!(Collection, id) |> Repo.preload(:owner)
     render(conn, "show.html", collection: collection)
   end
 
@@ -39,9 +43,9 @@ defmodule Digraffe.CollectionController do
     render(conn, "edit.html", collection: collection, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "collection" => collection_params}) do
+  def update(conn, %{"id" => id, "collection" => params}) do
     collection = Repo.get!(Collection, id)
-    changeset = Collection.changeset(collection, collection_params)
+    changeset = Collection.changeset(collection, params)
 
     case Repo.update(changeset) do
       {:ok, collection} ->

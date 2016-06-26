@@ -1,6 +1,5 @@
 defmodule Digraffe.Router do
   use Digraffe.Web, :router
-  alias Digraffe.Settings
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -8,7 +7,7 @@ defmodule Digraffe.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug :assign_settings
+    plug Digraffe.Plugs.Authenticate
   end
 
   pipeline :api do
@@ -32,13 +31,5 @@ defmodule Digraffe.Router do
     get "/:provider",          AuthController, :index
     get "/:provider/callback", AuthController, :callback
     delete "/logout",          AuthController, :delete
-  end
-
-  # Fetch the current user from the session and add it to `conn.assigns`. This
-  # will allow you to have access to the current user in your views with
-  # `@current_account`.
-  defp assign_settings(conn, _) do
-    user = get_session(conn, :current_user)
-    assign conn, :settings, Settings.get_or_create(user)
   end
 end

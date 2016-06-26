@@ -36,7 +36,14 @@ defmodule Digraffe.ConnCase do
     unless tags[:async] do
       Ecto.Adapters.SQL.restart_test_transaction(Digraffe.Repo, [])
     end
-
-    {:ok, conn: Phoenix.ConnTest.conn()}
+    user = %{
+      name: "Gnusto",
+      provider: "github",
+      provider_id: "https://api.github.com/users/gnusto",
+      avatar_url: "https://avatars.githubusercontent.com/u/760949?v=3"
+    }
+    conn = Phoenix.ConnTest.conn()
+    |> Plug.Conn.put_private(:current_user, user)
+    {:ok, conn: conn}
   end
 end

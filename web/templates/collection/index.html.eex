@@ -2,7 +2,7 @@
 
 <table class="table">
   <tbody>
-<%= for collection <- @collections do %>
+  <%= for collection <- @collections do %>
     <tr>
       <td><%= collection.title %></td>
 
@@ -12,8 +12,10 @@
         <%= link "Delete", to: collection_path(@conn, :delete, collection), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>
     </tr>
-<% end %>
+  <% end %>
   </tbody>
 </table>
 
-<%= link "New collection", to: collection_path(@conn, :new) %>
+<%= if @settings do %>
+  <%= link "Add", to: collection_path(@conn, :new) %>
+<% end %>

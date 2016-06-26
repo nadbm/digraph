@@ -16,4 +16,6 @@
   </tbody>
 </table>
 
-<%= link "New topic", to: topic_path(@conn, :new) %>
+<%= if @settings do %>
+  <%= link "Add", to: topic_path(@conn, :new) %>
+<% end %>

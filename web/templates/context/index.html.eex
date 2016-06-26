@@ -16,4 +16,6 @@
   </tbody>
 </table>
 
-<%= link "New context", to: context_path(@conn, :new) %>
+<%= if @settings do %>
+  <%= link "Add", to: context_path(@conn, :new) %>
+<% end %>

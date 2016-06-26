@@ -1,14 +1,13 @@
 defmodule Digraffe.Collection do
   use Digraffe.Web, :model
 
-  @primary_key {:id, :binary_id, autogenerate: true}
-
   schema "collections" do
     field :title, :string
+    belongs_to :owner, Digraffe.Settings
     timestamps
   end
 
-  @required_fields ~w(title)
+  @required_fields ~w(title owner_id)
   @optional_fields ~w()
 
   def changeset(model, params \\ :empty) do

@@ -3,13 +3,12 @@ defmodule Digraffe.Settings do
 
   alias Digraffe.{Repo, Settings}
 
-  @primary_key {:id, :binary_id, autogenerate: true}
-
   schema "settings" do
     field :name, :string
     field :provider, :string
     field :provider_id, :string
     field :avatar_url, :string
+    has_many :collections, Digraffe.Collection, foreign_key: :owner_id
     timestamps
   end
 

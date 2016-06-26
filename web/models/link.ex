@@ -4,7 +4,6 @@ defmodule Digraffe.Link do
   alias Digraffe.Http
 
   @http_client Application.get_env(:digraffe, :http_client)
-  @primary_key {:id, :binary_id, autogenerate: true}
 
   schema "links" do
     field :title, :string

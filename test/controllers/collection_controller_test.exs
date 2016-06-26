@@ -1,7 +1,8 @@
 defmodule Digraffe.CollectionControllerTest do
   use Digraffe.ConnCase
-
+  import Digraffe.Factory
   alias Digraffe.Collection
+
   @valid_attrs %{title: "some content"}
   @invalid_attrs %{}
 
@@ -16,20 +17,24 @@ defmodule Digraffe.CollectionControllerTest do
   end
 
   test "creates resource and redirects when data is valid", %{conn: conn} do
-    conn = post conn, collection_path(conn, :create), collection: @valid_attrs
+    conn = post conn, collection_path(conn, :create),
+      collection: @valid_attrs,
+      settings: create(:settings)
     assert redirected_to(conn) == collection_path(conn, :index)
     assert Repo.get_by(Collection, @valid_attrs)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, collection_path(conn, :create), collection: @invalid_attrs
+    conn = post conn, collection_path(conn, :create),
+      collection: @invalid_attrs,
+      settings: create(:settings)
     assert html_response(conn, 200) =~ "New collection"
   end
 
   test "shows chosen resource", %{conn: conn} do
-    collection = Repo.insert! %Collection{}
+    collection = create(:collection)
     conn = get conn, collection_path(conn, :show, collection)
-    assert html_response(conn, 200) =~ "Show collection"
+    assert html_response(conn, 200) =~ "Collection"
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
@@ -45,7 +50,7 @@ defmodule Digraffe.CollectionControllerTest do
   end
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
-    collection = Repo.insert! %Collection{}
+    collection = create(:collection)
     conn = put conn, collection_path(conn, :update, collection), collection: @valid_attrs
     assert redirected_to(conn) == collection_path(conn, :show, collection)
     assert Repo.get_by(Collection, @valid_attrs)

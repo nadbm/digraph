@@ -1,9 +1,11 @@
 <h2>Links</h2>
 
-<%= render "form.html",
-  changeset: @changeset,
-  action: link_path(@conn, :create),
-  button_text: "Add" %>
+<%= if @settings do %>
+  <%= render "form.html",
+    changeset: @changeset,
+    action: link_path(@conn, :create),
+    button_text: "Add" %>
+<% end %>
 
 <table class="table">
   <tbody>

@@ -1,10 +1,15 @@
-<h2>Show collection</h2>
+<h2>Collection</h2>
 
 <ul>
 
   <li>
     <strong>Title:</strong>
     <%= @collection.title %>
+  </li>
+
+  <li>
+    <strong>Owner:</strong>
+    <%= @collection.owner.name %>
   </li>
 
 </ul>
