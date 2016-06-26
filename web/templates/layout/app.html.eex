@@ -21,16 +21,24 @@
             <li><%= link "Topics",      to: "/topics"   %></li>
             <li><%= link "Contexts",    to: "/contexts" %></li>
             <li><%= link "Collections", to: "/collections" %></li>
-            <li>
+            <li class="settings">
               <%= if @settings do %>
-                <img src="<%= @settings.small_avatar_url %>" class="img-circle"/>
-                <%= link "Logout", to: auth_path(@conn, :delete), method: :delete, class: "btn btn-danger" %>
+                <div class="dropdown">
+                  <a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="true">
+                    <img src="<%= @settings.small_avatar_url %>" class="img-circle avatar"/>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><%= link "Logout", to: auth_path(@conn, :delete), method: :delete %></li>
+                  </ul>
+                </div>
               <% else %>
-                <a class="btn btn-primary btn-lg" href="<%= auth_path @conn, :index, "github" %>">
+                <a class="btn btn-primary" href="<%= auth_path @conn, :index, "github" %>">
                   <i class="fa fa-github"></i>
                   GitHub
                 </a>
               <% end %>
+
             </li>
           </ul>
         </nav>
