@@ -1,13 +1,6 @@
-<h2>Listing collections</h2>
+<h2>Collections</h2>
 
 <table class="table">
-  <thead>
-    <tr>
-      <th>Title</th>
-
-      <th></th>
-    </tr>
-  </thead>
   <tbody>
 <%= for collection <- @collections do %>
     <tr>

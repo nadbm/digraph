@@ -21,6 +21,7 @@
             <li><%= link "Topics",      to: "/topics"   %></li>
             <li><%= link "Contexts",    to: "/contexts" %></li>
             <li><%= link "Collections", to: "/collections" %></li>
+
             <li class="settings">
               <%= if @settings do %>
                 <div class="dropdown">
@@ -38,8 +39,8 @@
                   GitHub
                 </a>
               <% end %>
-
             </li>
+
           </ul>
         </nav>
         <span class="logo">Digraffe</span>
