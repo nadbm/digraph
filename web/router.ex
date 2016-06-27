@@ -25,6 +25,10 @@ defmodule Digraffe.Router do
     resources "/collections", CollectionController
   end
 
+  scope "/api/v1", Digraffe.Api.V1, as: :api_v1 do
+    resources "/collections", CollectionController, only: [:update]
+  end
+
   scope "/auth", Digraffe do
     pipe_through :browser
 

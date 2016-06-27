@@ -10,6 +10,7 @@
     <title>Digraffe</title>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </head>
 
   <body>
@@ -59,7 +60,7 @@
         <% end %>
       </div>
 
-      <div class="container">
+      <div class="content container">
         <%= render @view_module, @view_template, assigns %>
       </div>
     </div>
@@ -69,5 +70,6 @@
       require("tether");
       require("bootstrap");
     </script>
+    <div id="settings" style="display: hidden" data-settings-id="<%= @settings.id %>" />
   </body>
 </html>

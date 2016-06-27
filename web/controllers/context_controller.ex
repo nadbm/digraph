@@ -4,6 +4,7 @@ defmodule Digraffe.ContextController do
   alias Digraffe.Context
 
   plug :scrub_params, "context" when action in [:create, :update]
+  plug Digraffe.Plugs.SetCollection
 
   def index(conn, _params) do
     contexts = Repo.all(Context)

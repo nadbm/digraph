@@ -4,6 +4,7 @@ defmodule Digraffe.TopicController do
   alias Digraffe.Topic
 
   plug :scrub_params, "topic" when action in [:create, :update]
+  plug Digraffe.Plugs.SetCollection
 
   def index(conn, _params) do
     topics = Repo.all(Topic)

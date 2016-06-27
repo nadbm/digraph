@@ -4,6 +4,7 @@ defmodule Digraffe.LinkController do
   alias Digraffe.Link
 
   plug :scrub_params, "link" when action in [:create, :update]
+  plug Digraffe.Plugs.SetCollection
 
   def index(conn, _params) do
     render(conn, "index.html",

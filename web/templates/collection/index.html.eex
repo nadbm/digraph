@@ -1,21 +1,37 @@
 <h2>Collections</h2>
 
-<table class="table">
-  <tbody>
-  <%= for collection <- @collections do %>
-    <tr>
-      <td><%= collection.title %></td>
+<div data-toggle="buttons" class="collections index">
+  <table class="table">
+    <tbody>
+    <%= for collection <- @collections do %>
+      <tr>
+        <td>
+          <%= link collection.title, to: collection_path(@conn, :show, collection) %>
+        </td>
 
-      <td class="text-right">
-        <%= link "Show", to: collection_path(@conn, :show, collection), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: collection_path(@conn, :edit, collection), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: collection_path(@conn, :delete, collection), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
-      </td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+        <td class="text-right">
+          <%= if @settings do %>
+            <label class="btn btn-primary-outline btn-sm <%= selected_collection(@settings, collection) %>"
+              data-id="<%= collection.id %>">
+              <input name="collection" type="radio" autocomplete="off"> Select
+            </label>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
 
 <%= if @settings do %>
-  <%= link "Add", to: collection_path(@conn, :new) %>
+  <%= link "Add", to: collection_path(@conn, :new), class: "btn btn-primary" %>
 <% end %>
+
+<script>
+  $(function() {
+    $('label.btn').click(function() {
+      var settings_id = $('div#settings').attr('data-settings-id');
+      console.log('selected ' + $(this).attr('data-id') + ' by ' + settings_id);
+    });
+  });
+</script>
