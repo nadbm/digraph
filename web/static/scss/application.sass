@@ -1,29 +1,38 @@
+$grayish: #333
 
 li.settings
+  width: 80px
+  text-align: right
 
-  padding-left: 15px
+  img.avatar
+    border-radius: 3px
+    margin-top: 7px
+    height: 25px
+    width: 25px
 
-  .avatar
-    width: 40px
-    height: 40px
+  a.dropdown-toggle
+    text-decoration: none
+    color: $grayish
 
-  ul
-    li
-      padding-left: 8px
+  a.override-form
+    display: block
+    padding: 3px 20px
+    clear: both
+    font-weight: normal
+    line-height: 1.42857143
+    color: $grayish
+    white-space: nowrap
+    text-decoration: none
 
-      a
-        text-decoration: none
-        display: inline-block
-        width: 100%
+    &:hover
+      color: $grayish
+      text-decoration: none
+      background-color: #f5f5f5
 
   .dropdown.open
     a
       background: none
 
-
-#dropdownMenu1
-  display: inline-block
-  cursor: pointer
-
-  &:hover
-    text-decoration: none
+  &.login
+    i
+      width: 15px

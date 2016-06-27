@@ -13,47 +13,61 @@
   </head>
 
   <body>
-    <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><%= link "Links",       to: "/links"    %></li>
-            <li><%= link "Topics",      to: "/topics"   %></li>
-            <li><%= link "Contexts",    to: "/contexts" %></li>
-            <li><%= link "Collections", to: "/collections" %></li>
 
-            <li class="settings">
-              <%= if @settings do %>
-                <div class="dropdown">
-                  <a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="true">
-                    <img src="<%= Digraffe.Settings.small_avatar_url @settings %>" class="img-circle avatar"/>
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                    <li><%= link "Sign out", to: auth_path(@conn, :delete), method: :delete %></li>
-                  </ul>
-                </div>
-              <% else %>
-                <a class="btn btn-primary" href="<%= auth_path @conn, :index, "github" %>">
-                  <i class="fa fa-github"></i>
-                  GitHub
-                </a>
-              <% end %>
+    <div class="container">
+
+      <nav class="navbar navbar-light">
+        <a class="navbar-brand" href="/">Digraffe</a>
+        <ul class="nav navbar-nav pull-right">
+
+          <li class="nav-item"><%= link "Links", to: "/links", class: "nav-link" %></li>
+          <li class="nav-item"><%= link "Topics", to: "/topics", class: "nav-link"  %></li>
+          <li class="nav-item"><%= link "Contexts", to: "/contexts", class: "nav-link"  %></li>
+          <li class="nav-item"><%= link "Collections", to: "/collections", class: "nav-link" %></li>
+
+          <%= if @settings do %>
+            <li class="nav-item dropdown settings">
+              <a data-target="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                aria-haspopup="true" aria-expanded="false">
+                <img src="<%= Digraffe.Settings.small_avatar_url @settings %>" class="avatar"/>
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li><%= link "Sign out", to: auth_path(@conn, :delete), method: :delete, class: "override-form" %></li>
+              </ul>
             </li>
 
-          </ul>
-        </nav>
-        <span class="logo">Digraffe</span>
-      </header>
+          <% else %>
+            <li class="nav-item settings login">
+              <a class="nav-link" href="<%= auth_path @conn, :index, "github" %>">
+                <i class="fa fa-github"></i>
+                GitHub
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      </nav>
+    </div>
 
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+    <div class="container">
+      <div class="container">
+        <%= if message = get_flash(@conn, :error) do %>
+          <div class="alert alert-danger" role="alert"><%= message %></div>
+        <% end %>
+        <%= if message = get_flash(@conn, :info) do %>
+          <div class="alert alert-info" role="alert"><%= message %></div>
+        <% end %>
+      </div>
 
-      <main role="main">
+      <div class="container">
         <%= render @view_module, @view_template, assigns %>
-      </main>
+      </div>
+    </div>
 
-    </div> <!-- /container -->
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script>
+      require("tether");
+      require("bootstrap");
+    </script>
   </body>
 </html>
