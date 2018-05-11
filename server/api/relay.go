@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/cayleygraph/cayley/quad"
+	"github.com/emwalker/digraph/server/types"
 	"github.com/graphql-go/graphql"
 	"github.com/graphql-go/relay"
 )
@@ -49,7 +50,7 @@ func init() {
 		Description: "The international resource identifier (IRI).",
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 			node := p.Source.(Resource)
-			return isomorphicID(node.IRI()), nil
+			return types.IsomorphicID(node.IRI()), nil
 		},
 	}
 
@@ -58,7 +59,7 @@ func init() {
 		Description: "The relative path to the resource.",
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 			node := p.Source.(Resource)
-			return resourcePath(node.IRI()), nil
+			return types.ResourcePath(node.IRI()), nil
 		},
 	}
 }

@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/cayleygraph/cayley/quad"
+	"github.com/emwalker/digraph/server/types"
 )
 
 type Credentials struct {
@@ -27,7 +28,7 @@ type SessionStore interface {
 
 type Connection interface {
 	Close() error
-	CreateTopic(quad.IRI, *Topic) error
+	CreateTopic(quad.IRI, *types.Topic) error
 	FetchChildTopicsForTopic(quad.IRI, quad.IRI, *[]interface{}) error
 	FetchLink(quad.IRI, quad.IRI) (interface{}, error)
 	FetchLinkByURL(quad.IRI, string) (interface{}, error)
@@ -41,9 +42,7 @@ type Connection interface {
 	FetchTopicsForLink(quad.IRI, quad.IRI, *[]interface{}) error
 	FetchUser(string) (interface{}, error)
 	Init() error
-	SelectTopic(quad.IRI, string, string) (*Topic, error)
-	SelectedTopic(quad.IRI, string) (*Topic, error)
-	UpsertLink(quad.IRI, *Link, bool) error
+	UpsertLink(quad.IRI, *types.Link, bool) error
 	Viewer() (interface{}, error)
 }
 

@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"log"
 	"reflect"
@@ -17,6 +16,7 @@ import (
 	"github.com/cayleygraph/cayley/schema"
 	"github.com/cayleygraph/cayley/voc"
 	_ "github.com/cayleygraph/cayley/voc/core"
+	"github.com/emwalker/digraph/server/types"
 	"github.com/segmentio/ksuid"
 )
 
@@ -24,8 +24,8 @@ type Sortable interface {
 	Sort()
 }
 
-type topicArray []Topic
-type linkArray []Link
+type topicArray []types.Topic
+type linkArray []types.Link
 
 var topicArrayType reflect.Type
 var linkArrayType reflect.Type
@@ -126,7 +126,7 @@ func addParentTopics(tx *graph.Transaction, orgId quad.IRI, node Resource, ensur
 	}
 }
 
-func (conn *CayleyConnection) CreateTopic(orgId quad.IRI, node *Topic) error {
+func (conn *CayleyConnection) CreateTopic(orgId quad.IRI, node *types.Topic) error {
 	return conn.Do(func(tx *graph.Transaction) {
 		tx.AddQuad(quad.Make(node.ResourceID, quad.IRI("rdf:type"), quad.IRI("foaf:topic"), orgId))
 		tx.AddQuad(quad.Make(node.ResourceID, quad.IRI("di:name"), node.Name, orgId))
@@ -138,7 +138,7 @@ func (conn *CayleyConnection) CreateTopic(orgId quad.IRI, node *Topic) error {
 }
 
 func (conn *CayleyConnection) FetchLink(orgId quad.IRI, linkId quad.IRI) (interface{}, error) {
-	var o Link
+	var o types.Link
 	err := conn.schema.LoadTo(nil, conn.store, &o, linkId)
 	o.Init()
 	return handleResult(&o, err)
@@ -160,7 +160,7 @@ func (conn *CayleyConnection) FetchLinkByURL(orgId quad.IRI, url string) (interf
 }
 
 func (conn *CayleyConnection) FetchOrganization(id string) (interface{}, error) {
-	var o Organization
+	var o types.Organization
 	err := conn.schema.LoadTo(nil, conn.store, &o, quad.IRI(id))
 	o.Init()
 	return handleResult(&o, err)
@@ -171,47 +171,17 @@ func (conn *CayleyConnection) FetchTitle(url string) (string, error) {
 }
 
 func (conn *CayleyConnection) FetchTopic(orgId quad.IRI, id string) (interface{}, error) {
-	var o Topic
+	var o types.Topic
 	err := conn.schema.LoadTo(nil, conn.store, &o, quad.IRI(id))
 	o.Init()
 	return handleResult(&o, err)
 }
 
 func (conn *CayleyConnection) FetchUser(id string) (interface{}, error) {
-	var o User
+	var o types.User
 	err := conn.schema.LoadTo(nil, conn.store, &o, quad.IRI(id))
 	o.Init()
 	return handleResult(&o, err)
-}
-
-func (conn *CayleyConnection) SelectTopic(orgId quad.IRI, userId string, topicId string) (*Topic, error) {
-	checkErr(conn.session.Set(userId, "selectedTopicId", topicId))
-
-	if topicId != "" {
-		node, err := conn.FetchTopic(orgId, topicId)
-		checkErr(err)
-		if node != nil {
-			return node.(*Topic), nil
-		}
-		return nil, errors.New("topic not found")
-	}
-
-	return nil, nil
-}
-
-func (conn *CayleyConnection) SelectedTopic(orgId quad.IRI, userId string) (*Topic, error) {
-	topicId, err := conn.session.Get(userId, "selectedTopicId")
-	checkErr(err)
-
-	if topicId != "" {
-		node, err := conn.FetchTopic(orgId, topicId)
-		if err != nil {
-			return nil, err
-		}
-		return node.(*Topic), nil
-	}
-
-	return nil, nil
 }
 
 func (conn *CayleyConnection) Viewer() (interface{}, error) {
@@ -290,7 +260,7 @@ func (conn *CayleyConnection) FetchLinksForTopic(orgId quad.IRI, topicId quad.IR
 	return conn.loadIteratorTo(out, path, linkArrayType)
 }
 
-func (conn *CayleyConnection) UpsertLink(orgId quad.IRI, node *Link, ensureTopic bool) error {
+func (conn *CayleyConnection) UpsertLink(orgId quad.IRI, node *types.Link, ensureTopic bool) error {
 	path := cayley.StartPath(conn.store, node.ResourceID).
 		Out(quad.IRI("di:url"), quad.IRI("di:title"))
 

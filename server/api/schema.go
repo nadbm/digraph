@@ -4,46 +4,13 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"strings"
 
 	"github.com/cayleygraph/cayley/quad"
+	"github.com/emwalker/digraph/server/types"
 	"github.com/graphql-go/graphql"
 	"github.com/graphql-go/relay"
 	"golang.org/x/net/context"
 )
-
-type Organization struct {
-	_          struct{} `quad:"@type > foaf:Organization"`
-	ID         string   `json:"id" quad:",optional"`
-	ResourceID quad.IRI `json:"@id"`
-	Name       string   `json:"name" quad:"di:name"`
-}
-
-type User struct {
-	_          struct{} `quad:"@type > foaf:Person"`
-	ID         string   `json:"id" quad:",optional"`
-	ResourceID quad.IRI `json:"@id"`
-	Name       string   `json:"name" quad:"di:name"`
-	Email      string   `json:"email" quad:"di:email"`
-}
-
-type Topic struct {
-	_           struct{} `quad:"@type > foaf:topic"`
-	ID          string   `json:"id" quad:",optional"`
-	ResourceID  quad.IRI `json:"@id"`
-	Name        string   `json:"name" quad:"di:name"`
-	Description *string  `json:"description" quad:"di:description,optional"`
-	TopicIDs    []string `quad:",optional"`
-}
-
-type Link struct {
-	_          struct{} `quad:"@type > di:link"`
-	ID         string   `json:"id" quad:",optional"`
-	ResourceID quad.IRI `json:"@id"`
-	Title      string   `json:"title" quad:"di:title"`
-	URL        string   `json:"url" quad:"di:url"`
-	TopicIDs   []string `quad:",optional"`
-}
 
 type Resource interface {
 	Init()
@@ -59,69 +26,7 @@ var (
 	userType         *Type
 )
 
-var replacer = strings.NewReplacer("<", "", ">", "")
-
-func isomorphicID(id quad.IRI) string {
-	return replacer.Replace(id.Short().String())
-}
-
-func resourcePath(id quad.IRI) string {
-	return replacer.Replace(id.Full().String())
-}
-
-func (o *User) Init() {
-	o.ID = isomorphicID(o.ResourceID)
-}
-
-func (o *User) IRI() quad.IRI {
-	return o.ResourceID
-}
-
-func (o *Organization) Init() {
-	o.ID = isomorphicID(o.ResourceID)
-}
-
-func (o *Organization) IRI() quad.IRI {
-	return o.ResourceID
-}
-
-func (o *Organization) ParentTopicIDs() []quad.IRI {
-	return []quad.IRI{}
-}
-
-func (o *Topic) Init() {
-	o.ID = isomorphicID(o.ResourceID)
-}
-
-func (o *Topic) IRI() quad.IRI {
-	return o.ResourceID
-}
-
-func (o *Topic) ParentTopicIDs() []quad.IRI {
-	ids := make([]quad.IRI, len(o.TopicIDs))
-	for i, topicId := range o.TopicIDs {
-		ids[i] = quad.IRI(topicId)
-	}
-	return ids
-}
-
-func (o *Link) Init() {
-	o.ID = isomorphicID(o.ResourceID)
-}
-
-func (o *Link) ParentTopicIDs() []quad.IRI {
-	ids := make([]quad.IRI, len(o.TopicIDs))
-	for i, topicId := range o.TopicIDs {
-		ids[i] = quad.IRI(topicId)
-	}
-	return ids
-}
-
-func (o *Link) IRI() quad.IRI {
-	return o.ResourceID
-}
-
-func NewLink(node *Link, conn Connection) *Link {
+func NewLink(node *types.Link, conn Connection) *types.Link {
 	var useTitle string
 
 	if node.Title == "" {
@@ -138,7 +43,7 @@ func NewLink(node *Link, conn Connection) *Link {
 	return node
 }
 
-func NewTopic(node *Topic) *Topic {
+func NewTopic(node *types.Topic) *types.Topic {
 	node.ResourceID = generateIDForType("topic")
 	node.Init()
 	return node
@@ -146,13 +51,13 @@ func NewTopic(node *Topic) *Topic {
 
 func resolveType(p graphql.ResolveTypeParams) *graphql.Object {
 	switch p.Value.(type) {
-	case *Link:
+	case *types.Link:
 		return linkType.NodeType
-	case *Organization:
+	case *types.Organization:
 		return organizationType.NodeType
-	case *Topic:
+	case *types.Topic:
 		return topicType.NodeType
-	case *User:
+	case *types.User:
 		return userType.NodeType
 	default:
 		panic("unknown type")
@@ -217,7 +122,7 @@ func (config *Config) createTopicMutation(edgeType graphql.Output) *graphql.Fiel
 		MutateAndGetPayload: func(input map[string]interface{}, info graphql.ResolveInfo, ctx context.Context) (map[string]interface{}, error) {
 			topicIds := stringList(input["topicIds"])
 			orgId := quad.IRI(input["organizationId"].(string))
-			node := NewTopic(&Topic{
+			node := NewTopic(&types.Topic{
 				Name:        input["name"].(string),
 				Description: maybeString(input["description"]),
 				TopicIDs:    *topicIds,
@@ -291,15 +196,15 @@ func (config *Config) upsertLinkMutation(edgeType graphql.Output) *graphql.Field
 
 			if node == nil {
 				log.Println("Link is new:", url)
-				node = NewLink(&Link{
+				node = NewLink(&types.Link{
 					URL:      url,
 					Title:    stringOr("", title),
 					TopicIDs: *topicIds,
 				}, config.Connection)
-				checkErr(config.Connection.UpsertLink(orgId, node.(*Link), true))
+				checkErr(config.Connection.UpsertLink(orgId, node.(*types.Link), true))
 			} else {
 				log.Println("Link is already in datastore:", url)
-				link := node.(*Link)
+				link := node.(*types.Link)
 				link.TopicIDs = *topicIds
 				link.URL = url
 				if title != nil {
@@ -309,59 +214,7 @@ func (config *Config) upsertLinkMutation(edgeType graphql.Output) *graphql.Field
 			}
 
 			return map[string]interface{}{
-				"linkId":         node.(*Link).ID,
-				"organizationId": orgId,
-			}, nil
-		},
-	})
-}
-
-func (config *Config) selectTopicMutation(topicType *Type) *graphql.Field {
-	return relay.MutationWithClientMutationID(relay.MutationConfig{
-		Name: "SelectTopic",
-
-		InputFields: graphql.InputObjectConfigFieldMap{
-			"organizationId": &graphql.InputObjectFieldConfig{
-				Type: graphql.String,
-			},
-			"topicId": &graphql.InputObjectFieldConfig{
-				Type: graphql.String,
-			},
-		},
-
-		OutputFields: graphql.Fields{
-			"topic": &graphql.Field{
-				Type: topicType.NodeType,
-
-				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-					payload := p.Source.(map[string]interface{})
-					if topicId, ok := payload["topicId"].(string); ok {
-						orgId := payload["organizationId"].(quad.IRI)
-						return config.Connection.FetchTopic(orgId, topicId)
-					}
-					return nil, nil
-				},
-			},
-		},
-
-		MutateAndGetPayload: func(
-			input map[string]interface{},
-			info graphql.ResolveInfo,
-			ctx context.Context,
-		) (map[string]interface{}, error) {
-			viewer, err := config.Connection.Viewer()
-			checkErr(err)
-			orgId := quad.IRI(input["organizationId"].(string))
-			topicId := input["topicId"].(string)
-
-			node, err := config.Connection.SelectTopic(orgId, viewer.(*User).ID, topicId)
-			if err != nil {
-				log.Println("there was a problem:", err)
-				return map[string]interface{}{}, nil
-			}
-
-			return map[string]interface{}{
-				"topicId":        node.ID,
+				"linkId":         node.(*types.Link).ID,
 				"organizationId": orgId,
 			}, nil
 		},
@@ -421,17 +274,6 @@ func (config *Config) newSchema() (*graphql.Schema, error) {
 			"email": &graphql.Field{
 				Type:        graphql.String,
 				Description: "Email address of the user",
-			},
-
-			"selectedTopic": &graphql.Field{
-				Type:        topicType.NodeType,
-				Description: "Topic selected by the user",
-
-				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-					user := p.Source.(*User)
-					orgId := quad.IRI("organization:tyrell")
-					return config.Connection.SelectedTopic(orgId, user.ID)
-				},
 			},
 		},
 
@@ -523,7 +365,6 @@ func (config *Config) newSchema() (*graphql.Schema, error) {
 		Fields: graphql.Fields{
 			"createTopic": config.createTopicMutation(topicType.Definitions.EdgeType),
 			"upsertLink":  config.upsertLinkMutation(linkType.Definitions.EdgeType),
-			"selectTopic": config.selectTopicMutation(topicType),
 		},
 	})
 
