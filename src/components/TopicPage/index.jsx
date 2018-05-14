@@ -52,7 +52,7 @@ const TopicPage = ({ topic, ...props }: Props) => {
         >
           { topics.map(childTopic => (
             <Topic
-              key={childTopic.resourceId}
+              key={childTopic.uid}
               topic={childTopic}
               {...props}
             />
@@ -60,7 +60,7 @@ const TopicPage = ({ topic, ...props }: Props) => {
 
           { links.map(link => (
             <Link
-              key={link.resourceId}
+              key={link.uid}
               link={link}
               {...props}
             />
@@ -76,10 +76,10 @@ query TopicPage_query_Query(
   $organizationId: String!,
   $topicId: String!
 ) {
-  organization(resourceId: $organizationId) {
+  organization(externalId: $organizationId) {
     ...TopicPage_organization
 
-    topic(resourceId: $topicId) {
+    topic(externalId: $topicId) {
       ...TopicPage_topic
     }
   }
@@ -102,7 +102,7 @@ export default createFragmentContainer(TopicPage, graphql`
       edges {
         node {
           display: name
-          resourcePath
+          externalId
         }
       }
     }
@@ -110,7 +110,7 @@ export default createFragmentContainer(TopicPage, graphql`
     childTopics(first: 1000) @connection(key: "Topic_childTopics") {
       edges {
         node {
-          resourceId
+          uid
           ...Topic_topic
         }
       }
@@ -119,7 +119,7 @@ export default createFragmentContainer(TopicPage, graphql`
     links(first: 1000)  @connection(key: "Topic_links") {
       edges {
         node {
-          resourceId
+          uid
           ...Link_link
         }
       }

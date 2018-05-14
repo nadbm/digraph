@@ -38,7 +38,7 @@ class AddLink extends Component<RelayProps, State> {
   }
 
   createLink() {
-    const { resourceId: organizationId } = this.props.organization
+    const { uid: organizationId } = this.props.organization
 
     upsertLinkMutation(
       this.props.relay.environment,
@@ -46,7 +46,7 @@ class AddLink extends Component<RelayProps, State> {
       {
         organizationId,
         url: this.state.url,
-        addTopicIds: [this.props.topic.resourceId],
+        addTopicIds: [this.props.topic.uid],
       },
     )
     this.setState({ url: '' })
@@ -75,11 +75,11 @@ class AddLink extends Component<RelayProps, State> {
 
 export default createFragmentContainer(AddLink, graphql`
   fragment AddLink_organization on Organization {
-    resourceId
+    uid
   }
 
   fragment AddLink_topic on Topic {
     id
-    resourceId
+    uid
   }
 `)

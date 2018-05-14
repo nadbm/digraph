@@ -38,7 +38,7 @@ const LinksPage = ({ organization, ...props }: Props) => {
 
 export const query = graphql`
   query LinksPage_query_Query($organizationId: String!) {
-    organization(resourceId: $organizationId) {
+    organization(externalId: $organizationId) {
       ...LinksPage_organization
     }
   }
@@ -51,7 +51,7 @@ export default createFragmentContainer(LinksPage, graphql`
     links(first: 1000) @connection(key: "Organization_links") {
       edges {
         node {
-          resourceId
+          uid
           ...Link_link
         }
       }

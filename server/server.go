@@ -5,6 +5,7 @@ import (
 
 	"github.com/badoux/goscraper"
 	"github.com/emwalker/digraph/server/api"
+	"github.com/emwalker/digraph/server/dgraph"
 	"github.com/labstack/echo"
 )
 
@@ -18,15 +19,10 @@ func titleFetcher(url string) (string, error) {
 }
 
 func main() {
-	apiApp, err := api.New(&api.Config{
-		Address:    "postgres://postgres@localhost:5432/digraffe_dev?sslmode=disable",
-		DriverName: "postgres",
-		Engine:     echo.New(),
-		FetchTitle: titleFetcher,
-	})
-	if err != nil {
-		panic(err)
+	s := &api.Server{
+		Engine: echo.New(),
+		Schema: dgraph.LoadSchema("./schema.graphql"),
 	}
 
-	apiApp.Run()
+	log.Fatal(s.ListenAndServe())
 }

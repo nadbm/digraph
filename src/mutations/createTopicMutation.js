@@ -10,8 +10,8 @@ const mutation = graphql`
         node {
           id
           name
-          resourceId
-          resourcePath
+          uid
+          externalId
         }
       }
     }

@@ -16,7 +16,7 @@ describe('<TopicsPage />', () => {
         {
           node: {
             name: 'Frotz',
-            resourcePath: '/topics/1234',
+            uid: '1234',
           },
         },
       ],

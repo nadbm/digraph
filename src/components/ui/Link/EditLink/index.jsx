@@ -12,12 +12,12 @@ type Props = {
     environment: Object,
   },
   link: {
-    resourceId: string,
+    uid: string,
     title: string,
     url: string,
   },
   organization: {
-    resourceId: string,
+    uid: string,
   },
   toggleForm: Function,
 }
@@ -42,8 +42,8 @@ class EditLink extends Component<Props, State> {
       this.props.relay.environment,
       configs,
       {
-        organizationId: this.props.organization.resourceId,
-        resourceId: this.props.link.resourceId,
+        organizationId: this.props.organization.uid,
+        resourceId: this.props.link.uid,
         title: this.state.title,
         url: this.state.url,
       },
@@ -93,11 +93,11 @@ class EditLink extends Component<Props, State> {
 
 export default createFragmentContainer(EditLink, graphql`
   fragment EditLink_organization on Organization {
-    resourceId
+    uid
   }
 
   fragment EditLink_link on Link {
-    resourceId
+    uid
     title
     url
   }

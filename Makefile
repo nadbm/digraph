@@ -25,7 +25,7 @@ kill:
 serve: clean kill
 	@yarn relay --watch &
 	@yarn start &
-	@go run server/main.go
+	@go run server/server.go
 
 lint:
 	@yarn run eslint || true
@@ -60,7 +60,7 @@ format:
 check: format test
 
 load:
-	@cayley load --config=./cayley.cfg.json --load=./data/personal.nq
+	@bash script/load.sh
 
 dump:
 	@cayley dump --config=./cayley.cfg.json --dump=./data/personal.nq

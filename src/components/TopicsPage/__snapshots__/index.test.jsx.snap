@@ -13,7 +13,7 @@ ShallowWrapper {
             Object {
               "node": Object {
                 "name": "Frotz",
-                "resourcePath": "/topics/1234",
+                "uid": "1234",
               },
             },
           ],
@@ -61,7 +61,7 @@ ShallowWrapper {
                     Object {
                       "node": Object {
                         "name": "Frotz",
-                        "resourcePath": "/topics/1234",
+                        "uid": "1234",
                       },
                     },
                   ],
@@ -71,7 +71,7 @@ ShallowWrapper {
             topic={
               Object {
                 "name": "Frotz",
-                "resourcePath": "/topics/1234",
+                "uid": "1234",
               }
             }
             viewer={
@@ -127,7 +127,7 @@ ShallowWrapper {
                       Object {
                         "node": Object {
                           "name": "Frotz",
-                          "resourcePath": "/topics/1234",
+                          "uid": "1234",
                         },
                       },
                     ],
@@ -137,7 +137,7 @@ ShallowWrapper {
               topic={
                 Object {
                   "name": "Frotz",
-                  "resourcePath": "/topics/1234",
+                  "uid": "1234",
                 }
               }
               viewer={
@@ -154,7 +154,7 @@ ShallowWrapper {
         "rendered": Array [
           Object {
             "instance": null,
-            "key": "/topics/1234",
+            "key": "1234",
             "nodeType": "class",
             "props": Object {
               "organization": Object {
@@ -164,7 +164,7 @@ ShallowWrapper {
                     Object {
                       "node": Object {
                         "name": "Frotz",
-                        "resourcePath": "/topics/1234",
+                        "uid": "1234",
                       },
                     },
                   ],
@@ -172,7 +172,7 @@ ShallowWrapper {
               },
               "topic": Object {
                 "name": "Frotz",
-                "resourcePath": "/topics/1234",
+                "uid": "1234",
               },
               "viewer": Object {
                 "name": "Rezrov",
@@ -217,7 +217,7 @@ ShallowWrapper {
                       Object {
                         "node": Object {
                           "name": "Frotz",
-                          "resourcePath": "/topics/1234",
+                          "uid": "1234",
                         },
                       },
                     ],
@@ -227,7 +227,7 @@ ShallowWrapper {
               topic={
                 Object {
                   "name": "Frotz",
-                  "resourcePath": "/topics/1234",
+                  "uid": "1234",
                 }
               }
               viewer={
@@ -283,7 +283,7 @@ ShallowWrapper {
                         Object {
                           "node": Object {
                             "name": "Frotz",
-                            "resourcePath": "/topics/1234",
+                            "uid": "1234",
                           },
                         },
                       ],
@@ -293,7 +293,7 @@ ShallowWrapper {
                 topic={
                   Object {
                     "name": "Frotz",
-                    "resourcePath": "/topics/1234",
+                    "uid": "1234",
                   }
                 }
                 viewer={
@@ -310,7 +310,7 @@ ShallowWrapper {
           "rendered": Array [
             Object {
               "instance": null,
-              "key": "/topics/1234",
+              "key": "1234",
               "nodeType": "class",
               "props": Object {
                 "organization": Object {
@@ -320,7 +320,7 @@ ShallowWrapper {
                       Object {
                         "node": Object {
                           "name": "Frotz",
-                          "resourcePath": "/topics/1234",
+                          "uid": "1234",
                         },
                       },
                     ],
@@ -328,7 +328,7 @@ ShallowWrapper {
                 },
                 "topic": Object {
                   "name": "Frotz",
-                  "resourcePath": "/topics/1234",
+                  "uid": "1234",
                 },
                 "viewer": Object {
                   "name": "Rezrov",

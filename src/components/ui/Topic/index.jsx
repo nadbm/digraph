@@ -35,7 +35,7 @@ class Topic extends Component<Props, State> {
         title={this.props.topic.name}
         toggleForm={this.toggleForm}
         topics={this.parentTopics}
-        url={this.props.topic.resourcePath}
+        url={this.props.topic.externalId}
       >
         Edit topic
       </Item>
@@ -45,18 +45,18 @@ class Topic extends Component<Props, State> {
 
 export default createFragmentContainer(Topic, graphql`
   fragment Topic_organization on Organization {
-    resourceId
+    uid
   }
 
   fragment Topic_topic on Topic {
     name
-    resourcePath
+    externalId
 
     parentTopics(first: 10) {
       edges {
         node {
           name
-          resourcePath
+          externalId
         }
       }
     }

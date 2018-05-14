@@ -26,7 +26,7 @@ const TopicsPage = ({ organization, ...props }: Props) => {
       >
         { topics.map(topic => (
           <Topic
-            key={topic.resourcePath}
+            key={topic.uid}
             topic={topic}
             organization={organization}
             {...props}
@@ -39,7 +39,7 @@ const TopicsPage = ({ organization, ...props }: Props) => {
 
 export const query = graphql`
 query TopicsPage_query_Query($organizationId: String!) {
-  organization(resourceId: $organizationId) {
+  organization(externalId: $organizationId) {
     ...TopicsPage_organization
   }
 }`
@@ -47,13 +47,12 @@ query TopicsPage_query_Query($organizationId: String!) {
 export default createFragmentContainer(TopicsPage, graphql`
   fragment TopicsPage_organization on Organization {
     id
-    resourceId
     ...Topic_organization
 
     topics(first: 1000) @connection(key: "Organization_topics") {
       edges {
         node {
-          resourcePath
+          uid
           ...Topic_topic
         }
       }

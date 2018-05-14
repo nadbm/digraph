@@ -16,7 +16,7 @@ import {
   routeConfig,
 } from './router'
 
-const PORT = 8080
+const PORT = 8000
 
 const app = express()
 

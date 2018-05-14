@@ -38,7 +38,7 @@ class AddTopic extends Component<RelayProps, State> {
   }
 
   createTopic() {
-    const { resourceId: organizationId } = this.props.organization
+    const { uid: organizationId } = this.props.organization
 
     createTopicMutation(
       this.props.relay.environment,
@@ -46,7 +46,7 @@ class AddTopic extends Component<RelayProps, State> {
       {
         organizationId,
         name: this.state.name,
-        topicIds: [this.props.topic.resourceId],
+        topicIds: [this.props.topic.uid],
       },
     )
     this.setState({ name: '' })
@@ -75,11 +75,11 @@ class AddTopic extends Component<RelayProps, State> {
 
 export default createFragmentContainer(AddTopic, graphql`
   fragment AddTopic_organization on Organization {
-    resourceId
+    uid
   }
 
   fragment AddTopic_topic on Topic {
     id
-    resourceId
+    uid
   }
 `)
